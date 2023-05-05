@@ -1,21 +1,39 @@
-import data from '../src/conv/data.json';
-import Worker from './components/Worker';
+import JSZip from 'jszip'
+import ZipUpload from './components/Uploader'
+import Worker from './components/Worker'
+import { useState } from 'react'
 
-function App() {
-  const ourData= JSON.parse(JSON.stringify(data))
-const stringTerms=ourData.terms
+function App () {
+  const [jsonData, setJsonData] = useState([])
 
-const mapped=stringTerms.map(term=>`${term.slice(0,3)}\t${term}\ten-US`)
-const reversed=mapped.reverse()
-reversed.push("# Gboard Dictionary version:1")
-const final= reversed.reverse()
+  const onUpload = file => {
+    const new_zip = new JSZip()
+    new_zip.loadAsync(file).then(async function (zipped) {
+      const jsonFile = await zipped
+        .file('services/sync_words.json')
+        .async('text')
+
+      const ourData = JSON.parse(jsonFile)
+      const stringTerms = ourData.terms
+
+      const mapped = stringTerms.map(
+        term => `${term.slice(0, 3)}\t${term}\ten-US`
+      )
+      const reversed = mapped.reverse()
+      reversed.push('# Gboard Dictionary version:1')
+      const final = reversed.reverse()
+      setJsonData(final)
+    })
+  }
 
   return (
     <>
       <div>
-        <Worker list={final}></Worker>
+        <ZipUpload onUpload={onUpload}></ZipUpload>
       </div>
-     
+      <div>
+        <Worker list={jsonData}></Worker>
+      </div>
     </>
   )
 }

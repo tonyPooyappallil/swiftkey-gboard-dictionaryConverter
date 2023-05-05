@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-
-
 import JSZip from "jszip";
 import { saveAs } from 'file-saver';
 

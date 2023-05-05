@@ -2,7 +2,7 @@
 import JSZip from "jszip";
 import { saveAs } from 'file-saver';
 
-const Worker = ({ list }) => {
+const Downloader = ({ list }) => {
   const newText=list.join("\n")
  
 const downloadMAker=()=>{
@@ -21,4 +21,4 @@ const downloadMAker=()=>{
   );
 };
 
-export default Worker;
+export default Downloader;

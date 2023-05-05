@@ -1,6 +1,6 @@
 import JSZip from 'jszip'
 import ZipUpload from './components/Uploader'
-import Worker from './components/Worker'
+import Downloader from './components/Downloader'
 import { useState } from 'react'
 
 function App () {
@@ -32,7 +32,7 @@ function App () {
         <ZipUpload onUpload={onUpload}></ZipUpload>
       </div>
       <div>
-        <Worker list={jsonData}></Worker>
+        <Downloader list={jsonData}></Downloader>
       </div>
     </>
   )
